@@ -180,7 +180,6 @@ int t;
   rootblock->disk_offset = offset + partition->start;
 
   fseek(in, offset + partition->start, SEEK_SET);
-printf("found at %x\n", offset + partition->start);
   rootblock->type = read_int(in);
   rootblock->header_key = read_int(in);
   rootblock->high_seq = read_int(in);
