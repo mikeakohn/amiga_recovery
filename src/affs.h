@@ -13,39 +13,7 @@ Released under GPL
 
 #include "bootblock.h"
 #include "partition.h"
-
-struct _amiga_rootblock
-{
-  unsigned int type;
-  unsigned int header_key;
-  unsigned int high_seq;
-  unsigned int hash_table_size;
-  unsigned int first_size;
-  unsigned int checksum;
-  unsigned int hash_table[BSIZE/4-56];
-  unsigned int bm_flag;
-  unsigned int bm_pages[25];
-  unsigned int bm_ext;
-  unsigned int r_days;
-  unsigned int r_mins;
-  unsigned int r_ticks;
-  unsigned char diskname[32];  // name_len + 30 possible + 1 unused
-  unsigned int unused1[2];
-  unsigned int v_days;
-  unsigned int v_min;
-  unsigned int v_ticks;
-  unsigned int c_days;
-  unsigned int c_min;
-  unsigned int c_ticks;
-  unsigned int next_hash;
-  unsigned int parent_dir;
-  unsigned int extension;
-  unsigned int sec_type;
-
-  // DEBUG STUFF
-  unsigned int partition_offset;
-  unsigned int disk_offset;
-};
+#include "rootblock.h"
 
 struct _amiga_fileheader
 {
@@ -143,7 +111,6 @@ struct _pwd
   unsigned int parent_dir;
 };
 
-void read_rootblock(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_rootblock *rootblock);
 void read_fileheader(FILE * in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_fileheader *fileheader, unsigned int block);
 void read_file_ext(FILE * in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_file_ext *file_ext, unsigned int block);
 void read_directory(FILE * in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_directory *directory, unsigned int block);
@@ -152,15 +119,11 @@ void read_datablock(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_
 void list_directory(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd);
 void print_file(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd, char *filename, FILE *out);
 
-void print_rootblock(struct _amiga_rootblock *rootblock);
 void print_fileheader(struct _amiga_fileheader *fileheader);
 void print_file_ext(struct _amiga_file_ext *file_ext);
 void print_directory(struct _amiga_directory *directory);
 void print_datablock(struct _amiga_datablock *datablock);
 
-int dump_partition(FILE *in, struct _amiga_bootblock *bootblock, int num, const char *name);
-int read_partition_num(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, int num);
-int get_partition_num(FILE *in, struct _amiga_bootblock *bootblock, char *name);
 int ch_dir(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd, char *dirname);
 int get_sec_type(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, unsigned int block);
 
