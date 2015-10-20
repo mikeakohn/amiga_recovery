@@ -17,14 +17,14 @@ Released under GPL
 struct _amiga_bootblock
 {
   unsigned char magic[4];
-  unsigned int size;
+  uint32_t size;
   int checksum;
-  unsigned int scsihost;
-  unsigned int blksz;
-  unsigned int flags;
-  unsigned int badblcklst;
-  unsigned int partitionlst;
-  unsigned int fslst;
+  uint32_t scsihost;
+  uint32_t blksz;
+  uint32_t flags;
+  uint32_t badblcklst;
+  uint32_t partitionlst;
+  uint32_t fslst;
 
   // Offset on the disk to the bootblock
   long offset;
