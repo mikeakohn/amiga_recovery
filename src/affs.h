@@ -11,24 +11,7 @@ Released under GPL
 #ifndef AFFS_H
 #define AFFS_H
 
-// This really should come from the rootblock.. but I'm lazy right now
-#define BSIZE 512
-
-struct _amiga_bootblock
-{
-  unsigned char magic[4];
-  unsigned int size;
-  int checksum;
-  unsigned int scsihost;
-  unsigned int blksz;
-  unsigned int flags;
-  unsigned int badblcklst;
-  unsigned int partitionlst;
-  unsigned int fslst;
-
-  // Offset on the disk to the bootblock
-  long offset;
-};
+#include "bootblock.h"
 
 struct _amiga_partition
 {
@@ -198,7 +181,6 @@ struct _pwd
   unsigned int parent_dir;
 };
 
-int read_bootblock(FILE *in, struct _amiga_bootblock *bootblock);
 int read_partition(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition);
 void read_rootblock(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_rootblock *rootblock);
 void read_fileheader(FILE * in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_fileheader *fileheader, unsigned int block);
@@ -209,7 +191,6 @@ void read_datablock(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_
 void list_directory(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd);
 void print_file(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd, char *filename, FILE *out);
 
-void print_bootblock(struct _amiga_bootblock *bootblock);
 void print_partition(struct _amiga_partition *partition);
 void print_rootblock(struct _amiga_rootblock *rootblock);
 void print_partition_list(FILE *in, struct _amiga_bootblock *bootblock);
