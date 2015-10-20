@@ -1,7 +1,7 @@
 /*
 
 Amiga Recovery - Recover files from an Amiga AFFS disk image
-Copyright 2009-2014 - Michael Kohn (mike@mikekohn.net)
+Copyright 2009-2015 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
 Released under GPL

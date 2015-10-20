@@ -1,12 +1,15 @@
 /*
 
 Amiga Recovery - Recover files from an Amiga AFFS disk image
-Copyright 2009-2014 - Michael Kohn (mike@mikekohn.net)
+Copyright 2009-2015 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
 Released under GPL
 
 */
+
+#ifndef AFFS_H
+#define AFFS_H
 
 // This really should come from the rootblock.. but I'm lazy right now
 #define BSIZE 512
@@ -222,4 +225,5 @@ int get_partition_num(FILE *in, struct _amiga_bootblock *bootblock, char *name);
 int ch_dir(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd, char *dirname);
 int get_sec_type(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, unsigned int block);
 
+#endif
 

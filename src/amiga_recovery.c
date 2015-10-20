@@ -1,7 +1,7 @@
 /*
 
 Amiga Recovery - Recover files from an Amiga AFFS disk image
-Copyright 2009-2014 - Michael Kohn (mike@mikekohn.net)
+Copyright 2009-2015 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
 Released under GPL
@@ -60,7 +60,7 @@ static void print_pwd(struct _pwd *pwd)
 
 static void change_dir(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd, char *path)
 {
-int t;
+  int t;
 
   if (path[0] == 0)
   {
@@ -123,14 +123,14 @@ int t;
 
 int main(int argc, char *argv[])
 {
-FILE *in;
-struct _amiga_bootblock bootblock;
-struct _pwd pwd;
-char command[1024];
-int t;
+  FILE *in;
+  struct _amiga_bootblock bootblock;
+  struct _pwd pwd;
+  char command[1024];
+  int t;
 
-  printf("Amiga Recovery - 2014-July-19\n");
-  printf("Copyright 2009-2014 - Michael Kohn (mike@mikekohn.net)\n");
+  printf("Amiga Recovery - 2015-October-20\n");
+  printf("Copyright 2009-2015 - Michael Kohn (mike@mikekohn.net)\n");
   printf("http://www.mikekohn.net/\n\n");
 
   if (argc < 2)
