@@ -19,33 +19,33 @@ Released under GPL
 
 struct _amiga_file_ext
 {
-  unsigned int type;
-  unsigned int header_key;
-  unsigned int high_seq;
-  unsigned int unused1;
-  unsigned int unused2;
-  unsigned int checksum;
-  unsigned int datablocks[BSIZE/4-56];
-  unsigned int info[46];
-  unsigned int unused3;
-  unsigned int parent;
-  unsigned int extension;
-  unsigned int sec_type;
+  uint32_t type;
+  uint32_t header_key;
+  uint32_t high_seq;
+  uint32_t unused1;
+  uint32_t unused2;
+  uint32_t checksum;
+  uint32_t datablocks[BSIZE/4-56];
+  uint32_t info[46];
+  uint32_t unused3;
+  uint32_t parent;
+  uint32_t extension;
+  uint32_t sec_type;
 };
 
 struct _amiga_datablock
 {
-  unsigned int type;
-  unsigned int header_key;
-  unsigned int seq_num;
-  unsigned int data_size;
-  unsigned int next_data;
-  unsigned int checksum;
+  uint32_t type;
+  uint32_t header_key;
+  uint32_t seq_num;
+  uint32_t data_size;
+  uint32_t next_data;
+  uint32_t checksum;
   unsigned char data[BSIZE-24];
 };
 
-void read_file_ext(FILE * in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_file_ext *file_ext, unsigned int block);
-void read_datablock(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_datablock *datablock, unsigned int block);
+void read_file_ext(FILE * in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_file_ext *file_ext, uint32_t block);
+void read_datablock(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_datablock *datablock, uint32_t block);
 
 void print_file(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd, char *filename, FILE *out);
 
@@ -55,7 +55,7 @@ void print_datablock(struct _amiga_datablock *datablock);
 uint32_t hash_name(unsigned char *name);
 void print_hash_info(FILE *in, struct _amiga_rootblock *rootblock, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, uint32_t block);
 
-int get_sec_type(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, unsigned int block);
+int get_sec_type(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, uint32_t block);
 
 #endif
 
