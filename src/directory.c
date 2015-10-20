@@ -18,12 +18,6 @@ Released under GPL
 #include "directory.h"
 #include "fileio.h"
 
-#define ST_FILE -3
-#define ST_ROOT 1 
-#define ST_USERDIR 2 
-#define ST_SOFTLINK 3 
-#define ST_LINKDIR 4 
-
 void read_directory(FILE * in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_directory *directory, unsigned int block)
 {
   int namelen;

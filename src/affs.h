@@ -17,6 +17,12 @@ Released under GPL
 #include "partition.h"
 #include "rootblock.h"
 
+#define ST_FILE -3
+#define ST_ROOT 1 
+#define ST_USERDIR 2 
+#define ST_SOFTLINK 3 
+#define ST_LINKDIR 4 
+
 void print_file(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd, char *filename, FILE *out);
 
 uint32_t hash_name(unsigned char *name);

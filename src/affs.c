@@ -18,12 +18,6 @@ Released under GPL
 #include "file_ext.h"
 #include "fileio.h"
 
-#define ST_FILE -3
-#define ST_ROOT 1 
-#define ST_USERDIR 2 
-#define ST_SOFTLINK 3 
-#define ST_LINKDIR 4 
-
 /* hash_name function copied from http://lclevy.free.fr/adflib/adf_info.html */
 uint32_t hash_name(unsigned char *name)
 {
