@@ -44,25 +44,25 @@ uint32_t hash_name(unsigned char *name)
   return(hash);
 }
 
-void read_file_ext(FILE * in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_file_ext *file_ext, unsigned int block)
+void read_file_ext(FILE * in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_file_ext *file_ext, uint32_t block)
 {
-int t;
+  int t;
 
   fseek(in, partition->start + (block * bootblock->blksz), SEEK_SET);
 
   file_ext->type = read_int(in);
   file_ext->header_key = read_int(in);
   file_ext->high_seq = read_int(in);
-  //unsigned int unused1;
-  //unsigned int unused2;
+  //uint32_t unused1;
+  //uint32_t unused2;
   fseek(in, 2 * 4, SEEK_CUR);
   file_ext->checksum = read_int(in);
-  //unsigned int datablocks[BSIZE/4-56]
+  //uint32_t datablocks[BSIZE/4-56]
   for (t = 0; t<(512 / 4 - 56); t++)
   {
     file_ext->datablocks[t] = read_int(in);
   }
-  //unsigned int info[46];
+  //uint32_t info[46];
   fseek(in, 46 * 4, SEEK_CUR);
   file_ext->unused3 = read_int(in);
   file_ext->parent = read_int(in);
@@ -70,9 +70,9 @@ int t;
   file_ext->sec_type = read_int(in);
 }
 
-void read_datablock(FILE * in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_datablock *datablock, unsigned int block)
+void read_datablock(FILE * in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_datablock *datablock, uint32_t block)
 {
-int t;
+  int t;
 
   fseek(in, partition->start + (block * bootblock->blksz), SEEK_SET);
 
@@ -90,9 +90,9 @@ int t;
 
 void print_hash_info(FILE *in, struct _amiga_rootblock *rootblock, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, uint32_t block)
 {
-struct _amiga_directory directory;
-struct _amiga_fileheader fileheader;
-int sec_type;
+  struct _amiga_directory directory;
+  struct _amiga_fileheader fileheader;
+  int sec_type;
 
   sec_type = get_sec_type(in, bootblock, partition,block);
 
@@ -127,15 +127,15 @@ int sec_type;
 
 static void print_file_at_block(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_fileheader *fileheader, FILE *out)
 {
-//struct _amiga_datablock datablock;
-struct _amiga_file_ext file_ext;
-unsigned int *datablocks;
-unsigned int bytes_left;
-unsigned char buffer[bootblock->blksz];
-unsigned int next_block;
-int curr;
-int len;
-int t;
+  //struct _amiga_datablock datablock;
+  struct _amiga_file_ext file_ext;
+  uint32_t *datablocks;
+  uint32_t bytes_left;
+  unsigned char buffer[bootblock->blksz];
+  uint32_t next_block;
+  int curr;
+  int len;
+  int t;
 
   datablocks = fileheader->datablocks;
   bytes_left = fileheader->byte_size;
@@ -189,10 +189,10 @@ int t;
 
 void print_file(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd, char *filename, FILE *out)
 {
-struct _amiga_directory directory;
-struct _amiga_fileheader fileheader;
-unsigned int block;
-int sec_type;
+  struct _amiga_directory directory;
+  struct _amiga_fileheader fileheader;
+  uint32_t block;
+  int sec_type;
 
   block = pwd->dir_hash[hash_name((unsigned char*)filename)];
 
@@ -235,7 +235,7 @@ int sec_type;
 
 void print_file_ext(struct _amiga_file_ext *file_ext)
 {
-int t;
+  int t;
 
   printf("================== File Extension ===================\n");
   printf("             type: %d\n", file_ext->type);
@@ -256,9 +256,9 @@ int t;
 
 void print_datablock(struct _amiga_datablock *datablock)
 {
-char ascii[17];
-int ptr;
-int t;
+  char ascii[17];
+  int ptr;
+  int t;
 
   printf("================== Datablock ===================\n");
   printf("             type: %d\n", datablock->type);
@@ -294,7 +294,7 @@ int t;
   //FIXME - stuff missing at bottom..
 }
 
-int get_sec_type(FILE * in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, unsigned int block)
+int get_sec_type(FILE * in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, uint32_t block)
 {
   fseek(in, partition->start + (block * bootblock->blksz + (bootblock->blksz - 4)), SEEK_SET);
 
