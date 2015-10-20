@@ -20,8 +20,8 @@ Released under GPL
 
 int read_partition(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition)
 {
-unsigned int cylindar_size;
-int namelen;
+  uint32_t cylindar_size;
+  int namelen;
 
   // Should be "PART"
   read_chars(in, partition->magic, 4);
@@ -40,7 +40,7 @@ int namelen;
   partition->scsihost = read_int(in);
   partition->next = read_int(in);
   partition->flags = read_int(in);
-  //unsigned int partition->unused1[2];
+  //uint32_t partition->unused1[2];
   fseek(in, 4 * 2, SEEK_CUR);
   //read_int(in);
   //read_int(in);
@@ -50,13 +50,13 @@ int namelen;
   read_chars(in, partition->name, 31);
   partition->name[namelen] = 0;
 
-  //unsigned int partition->unused2[15];
-  //unsigned int partition->unused3[3];
+  //uint32_t partition->unused2[15];
+  //uint32_t partition->unused3[3];
   fseek(in, 4 * 15, SEEK_CUR);
   //partition->heads = read_int(in);
   //partition->unused4 = read_int(in);
   //partition->block_per_track = read_int(in);
-  //unsigned int partition->unused5[3];
+  //uint32_t partition->unused5[3];
   //fseek(in, 4*3, SEEK_CUR);
   //partition->lowcyl = read_int(in);
   //partition->highcyl = read_int(in);
@@ -142,8 +142,8 @@ void print_partition(struct _amiga_partition *partition)
 
 void print_partition_list(FILE *in, struct _amiga_bootblock *bootblock)
 {
-struct _amiga_partition partition;
-int count,t;
+  struct _amiga_partition partition;
+  int count, t;
 
   count = 0;
   t = bootblock->partitionlst;
@@ -160,8 +160,8 @@ int count,t;
 
 void show_partitions(FILE *in, struct _amiga_bootblock *bootblock)
 {
-struct _amiga_partition partition;
-int count,t;
+  struct _amiga_partition partition;
+  int count, t;
 
   count = 0;
   t = bootblock->partitionlst;
@@ -180,11 +180,11 @@ int count,t;
 
 int dump_partition(FILE *in, struct _amiga_bootblock *bootblock, int num, const char *filename)
 {
-struct _amiga_partition partition;
-int count,t;
-FILE *out;
-unsigned int size;
-unsigned char buffer[8192];
+  struct _amiga_partition partition;
+  int count,t;
+  FILE *out;
+  uint32_t size;
+  uint8_t buffer[8192];
 
   count = 0;
   t = bootblock->partitionlst;
@@ -240,7 +240,7 @@ unsigned char buffer[8192];
 
 int read_partition_num(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, int num)
 {
-int count,t;
+  int count, t;
 
   count = 0;
   t = bootblock->partitionlst;
@@ -263,8 +263,8 @@ int count,t;
 
 int get_partition_num(FILE *in, struct _amiga_bootblock *bootblock, char *name)
 {
-struct _amiga_partition partition;
-int count,t;
+  struct _amiga_partition partition;
+  int count, t;
 
   count = 0;
   t = bootblock->partitionlst;
