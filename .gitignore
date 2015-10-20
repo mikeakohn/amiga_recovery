@@ -1,2 +1,4 @@
 *.o
 amiga_recovery
+*.swp
+
