@@ -5,7 +5,7 @@ CFLAGS=-Wall -O3
 #PATH=/opt/xmingw/bin:/usr/bin
 VPATH=../src
 
-OBJECTS=affs.o bootblock.o fileio.o
+OBJECTS=affs.o bootblock.o partition.o fileio.o
 
 default: $(OBJECTS)
 	$(CC) -o ../amiga_recovery ../src/amiga_recovery.c \

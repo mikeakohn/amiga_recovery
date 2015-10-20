@@ -12,45 +12,7 @@ Released under GPL
 #define AFFS_H
 
 #include "bootblock.h"
-
-struct _amiga_partition
-{
-  unsigned char magic[4];
-  int size;
-  int checksum;
-  unsigned int scsihost;
-  unsigned int next;
-  unsigned int flags;
-  unsigned int unused1[2];
-  unsigned int devflags;
-  unsigned char name[32];
-  unsigned int unused2[15];
-
-  unsigned int table_size;
-  unsigned int size_block;
-  unsigned int sec_org;
-  unsigned int heads;
-  unsigned int sectors_per_block;
-  unsigned int blocks_per_track;
-  unsigned int num_reserved;
-  unsigned int pre_alloc;
-  unsigned int interleave;
-  unsigned int start_cyl;
-  unsigned int end_cyl;
-  unsigned int num_buffers;
-  unsigned int buff_type;
-  unsigned int max_transfer;
-  unsigned int mask;
-  int  boot_priority;
-  unsigned char type[4];
-  unsigned int baud;
-  unsigned int control;
-  unsigned int bootblocks;
-
-  unsigned int start;
-  unsigned int end;
-  unsigned int size_in_bytes;
-};
+#include "partition.h"
 
 struct _amiga_rootblock
 {
@@ -181,7 +143,6 @@ struct _pwd
   unsigned int parent_dir;
 };
 
-int read_partition(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition);
 void read_rootblock(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_rootblock *rootblock);
 void read_fileheader(FILE * in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_fileheader *fileheader, unsigned int block);
 void read_file_ext(FILE * in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_file_ext *file_ext, unsigned int block);
@@ -191,10 +152,7 @@ void read_datablock(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_
 void list_directory(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd);
 void print_file(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd, char *filename, FILE *out);
 
-void print_partition(struct _amiga_partition *partition);
 void print_rootblock(struct _amiga_rootblock *rootblock);
-void print_partition_list(FILE *in, struct _amiga_bootblock *bootblock);
-void show_partitions(FILE *in, struct _amiga_bootblock *bootblock);
 void print_fileheader(struct _amiga_fileheader *fileheader);
 void print_file_ext(struct _amiga_file_ext *file_ext);
 void print_directory(struct _amiga_directory *directory);
