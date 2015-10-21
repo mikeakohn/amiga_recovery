@@ -11,6 +11,8 @@ Released under GPL
 #ifndef PARTITION_H
 #define PARTITION_H
 
+#include <stdint.h>
+
 #include "bootblock.h"
 
 struct _amiga_partition

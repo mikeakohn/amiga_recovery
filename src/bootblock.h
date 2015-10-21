@@ -11,6 +11,8 @@ Released under GPL
 #ifndef BOOTBLOCK_H
 #define BOOTBLOCK_H
 
+#include <stdint.h>
+
 // This really should come from the rootblock.. but I'm lazy right now
 #define BSIZE 512
 

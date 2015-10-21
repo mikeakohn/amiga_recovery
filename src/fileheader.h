@@ -11,6 +11,8 @@ Released under GPL
 #ifndef FILEHEADER_H
 #define FILEHEADER_H
 
+#include <stdint.h>
+
 #include "bootblock.h"
 #include "partition.h"
 #include "rootblock.h"

@@ -11,6 +11,8 @@ Released under GPL
 #ifndef DIRECTORY_H
 #define DIRECTORY_H
 
+#include <stdint.h>
+
 #include "bootblock.h"
 #include "fileheader.h"
 #include "partition.h"
