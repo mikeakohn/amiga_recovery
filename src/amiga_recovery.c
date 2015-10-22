@@ -89,7 +89,7 @@ static void change_dir(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd
         memcpy(pwd->dir_hash, pwd->rootblock.hash_table, (BSIZE / 4 - 56) * 4);
       }
       pwd->partition_num = p;
-      path=path + t + 1;
+      path = path + t + 1;
 
       break;
     }
@@ -140,7 +140,8 @@ int main(int argc, char *argv[])
   }
 
   in = fopen(argv[1], "rb");
-  if (in == 0)
+
+  if (in == NULL)
   {
     printf("Could not open file %s for reading.\n", argv[1]);
     exit(1);
@@ -271,7 +272,7 @@ int main(int argc, char *argv[])
         }
           else
         {
-          out=fopen(filename, "wb");
+          out = fopen(filename, "wb");
           print_file(in, &bootblock, &pwd, filename, out);
           fclose(out);
           printf("Saved!\n");
@@ -307,12 +308,13 @@ int main(int argc, char *argv[])
       else
     if (strncmp(command, "dump partition ", sizeof("dump partition ") - 1) == 0)
     {
-      char *filename=command+sizeof("dump partition ") - 1;
+      char *filename = command + sizeof("dump partition ") - 1;
 
       if (filename[0] != 0)
       {
-        FILE *fp=fopen(filename, "rb");
-        if (fp != 0)
+        FILE *fp = fopen(filename, "rb");
+
+        if (fp != NULL)
         {
           printf("Error: File %s exists.  Will not overwrite.\n", filename);
           fclose(fp);

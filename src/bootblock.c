@@ -24,7 +24,7 @@ int read_bootblock(FILE *in, struct _amiga_bootblock *bootblock)
   for (n = 0; n < 16; n++)
   {
     fseek(in, n * 512, SEEK_SET);
-    read_chars(in,bootblock->magic, 4);
+    read_chars(in, bootblock->magic, 4);
     bootblock->size = read_int(in);
     bootblock->checksum = read_int(in);
     bootblock->scsihost = read_int(in);

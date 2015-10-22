@@ -8,13 +8,13 @@ default:
 	@+make -C build
 
 tools:
-	$(CC) -o find_root_block find_root_block.c $(CFLAGS)
-	$(CC) -o hex_file_view hex_file_view.c $(CFLAGS)
+	$(CC) -o find_root_block src/find_root_block.c \
+	   build/fileio.o build/rootblock.o \
+	   $(CFLAGS) -Isrc
 
 clean:
 	@rm -f build/*.o
 	@rm -f amiga_recovery amiga_recovery.exe
 	@rm -f find_root_block
-	@rm -f hex_file_view
 
 

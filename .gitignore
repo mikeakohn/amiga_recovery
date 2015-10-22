@@ -1,4 +1,5 @@
 *.o
 amiga_recovery
 *.swp
+find_root_block
 

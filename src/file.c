@@ -40,17 +40,17 @@ static void print_file_at_block(FILE *in, struct _amiga_bootblock *bootblock, st
   {
     for (curr = 71; curr >= 0; curr--)
     {
-      if (datablocks[curr] == 0) break;
+      if (datablocks[curr] == 0) { break; }
 
       fseek(in, partition->start + (datablocks[curr] * bootblock->blksz), SEEK_SET); 
-      if (bytes_left>bootblock->blksz)
+      if (bytes_left > bootblock->blksz)
       {
         len=fread(buffer, 1, bootblock->blksz, in);
         bytes_left -= bootblock->blksz;
       }
         else
       {
-        len=fread(buffer, 1, bytes_left, in);
+        len = fread(buffer, 1, bytes_left, in);
         bytes_left -= bytes_left;
       }
 
@@ -64,7 +64,7 @@ static void print_file_at_block(FILE *in, struct _amiga_bootblock *bootblock, st
       }
     }
 
-    if (next_block==0) break;
+    if (next_block == 0) { break; }
 
     read_file_ext(in, bootblock, partition, &file_ext, next_block);
     if (file_ext.type != 16)
@@ -72,6 +72,7 @@ static void print_file_at_block(FILE *in, struct _amiga_bootblock *bootblock, st
       printf("Error: File extension wasn't read right?  Bug?\n");
       break;
     }
+
     //print_file_ext(&file_ext);
     next_block = file_ext.extension;
     datablocks = file_ext.datablocks;

@@ -23,18 +23,11 @@ static uint32_t calc_rootblock(struct _amiga_bootblock *bootblock, struct _amiga
             partition->num_reserved) / 2) * bootblock->blksz;
 }
 
-void read_rootblock(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_rootblock *rootblock)
+int read_rootblock_data(FILE *in, struct _amiga_rootblock *rootblock)
 {
-  uint32_t offset;
   int namelen;
   int t;
 
-  offset = calc_rootblock(bootblock, partition); // + bootblock->offset;
-
-  rootblock->partition_offset = offset;
-  rootblock->disk_offset = offset + partition->start;
-
-  fseek(in, offset + partition->start, SEEK_SET);
   rootblock->type = read_int(in);
   rootblock->header_key = read_int(in);
   rootblock->high_seq = read_int(in);
@@ -42,16 +35,27 @@ void read_rootblock(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_
   rootblock->first_size = read_int(in);
   rootblock->checksum = read_int(in);
 
+  if (rootblock->hash_table_size > BSIZE / 4 - 56)
+  {
+    printf("Error: rootblock->hash_table_size > BSIZE / 4 - 56 %s:%d\n",
+           __FILE__, __LINE__);
+    printf("       It's prossible this is a bug in amiga_recovery\n");
+    return -1;
+  }
+
   for (t = 0; t < rootblock->hash_table_size; t++)
   {
     rootblock->hash_table[t] = read_int(in);
     //hash_table[512/4-56];
   }
+
   rootblock->bm_flag = read_int(in);
+
   for (t = 0; t < 25; t++)
   {
     rootblock->bm_pages[t] = read_int(in);
   }
+
   rootblock->bm_ext = read_int(in);
   rootblock->r_days = read_int(in);
   rootblock->r_mins = read_int(in);
@@ -75,6 +79,23 @@ void read_rootblock(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_
   rootblock->parent_dir = read_int(in);
   rootblock->extension = read_int(in);
   rootblock->sec_type = read_int(in);
+
+  return 0;
+}
+
+void read_rootblock(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_rootblock *rootblock)
+{
+  uint32_t offset;
+  //int namelen;
+  //int t;
+
+  offset = calc_rootblock(bootblock, partition); // + bootblock->offset;
+
+  rootblock->partition_offset = offset;
+  rootblock->disk_offset = offset + partition->start;
+
+  fseek(in, offset + partition->start, SEEK_SET);
+  if (read_rootblock_data(in, rootblock) != 0) { return; }
 }
 
 void print_rootblock(struct _amiga_rootblock *rootblock)
