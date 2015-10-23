@@ -14,6 +14,8 @@ Released under GPL
 #include "bootblock.h"
 #include "partition.h"
 
+#define UINT32(a,i) ((a[i+0] << 24) + (a[i+1] << 16) + (a[i+2] << 8) + a[i+3])
+
 struct _amiga_rootblock
 {
   uint32_t type;
@@ -50,6 +52,7 @@ struct _amiga_rootblock
 int read_rootblock_data(FILE *in, struct _amiga_rootblock *rootblock);
 void read_rootblock(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_rootblock *rootblock);
 void print_rootblock(struct _amiga_rootblock *rootblock);
+uint32_t find_root_block(FILE *in);
 
 #endif
 

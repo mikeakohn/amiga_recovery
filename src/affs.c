@@ -44,7 +44,7 @@ void print_hash_info(FILE *in, struct _amiga_rootblock *rootblock, struct _amiga
   struct _amiga_fileheader fileheader;
   int sec_type;
 
-  sec_type = get_sec_type(in, bootblock, partition,block);
+  sec_type = get_sec_type(in, bootblock, partition, block);
 
   if (sec_type == ST_USERDIR)
   {

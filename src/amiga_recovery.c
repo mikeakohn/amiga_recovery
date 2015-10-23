@@ -150,6 +150,7 @@ int main(int argc, char *argv[])
   memset(&pwd, 0, sizeof(pwd));
 
   t = read_bootblock(in, &bootblock);
+
   if (t >= 0)
   {
     printf("Found bootblock @ block %d\n\n", t);
@@ -157,6 +158,25 @@ int main(int argc, char *argv[])
   else
   {
     printf("Error: Could not read bootblock\n\n");
+
+    uint32_t offset = find_root_block(in);
+
+    if (offset == 0)
+    {
+      printf("Could not find a rootblock either.. aborting..\n\n");
+      exit(0);
+    }
+
+    fseek(in, offset, SEEK_SET);
+
+    read_rootblock_data(in, &pwd.rootblock);
+    memcpy(pwd.dir_hash, pwd.rootblock.hash_table, (BSIZE / 4 - 56) * 4);
+
+    strcpy((char *)pwd.partition.name, (char *)pwd.rootblock.diskname);
+    memcpy(pwd.partition.magic, "PART", 4);
+
+    memset(&bootblock, 0, sizeof(bootblock));
+    bootblock.blksz = 512;
   }
 
   printf("Type help for a list of commands.\n");
@@ -335,15 +355,6 @@ int main(int argc, char *argv[])
       printf("Unknown command '%s'.  Type help for a list of commands\n", command);
     }
   }
-
-/*
-  print_bootblock(&bootblock);
-  print_partition_list(in, &bootblock);
-
-  read_partition_num(in, &bootblock, &partition, 3);
-  print_partition(&partition, 3);
-  list_directory(in, &bootblock, &partition);
-*/
 
   fclose(in);
 
