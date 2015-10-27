@@ -81,7 +81,7 @@ static void print_file_at_block(FILE *in, struct _amiga_bootblock *bootblock, st
   if (out == NULL) { printf("\n"); }
 }
 
-void print_file(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd, char *filename, FILE *out)
+void copy_file(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd, char *filename, FILE *out)
 {
   struct _amiga_directory directory;
   struct _amiga_fileheader fileheader;

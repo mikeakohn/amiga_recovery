@@ -12,8 +12,12 @@ Released under GPL
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <errno.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #include "affs.h"
+#include "copy_all.h"
 
 #define CHECKDIR() \
       if (pwd.partition.magic[0] == 0) \
@@ -33,6 +37,7 @@ static void print_help()
   printf("  dir or ls                      [ current directory listing ]\n");
   printf("  type or cat <filename>         [ write a text file to screen ]\n");
   printf("  get <filename>                 [ copy file to local disk ]\n");
+  printf("  copy all <dir>                 [ copy all files in partition to dest ]\n");
   printf("  pwd                            [ show current directory ]\n");
   printf("  help or ?\n");
   printf("  exit or quit\n");
@@ -256,7 +261,7 @@ int main(int argc, char *argv[])
       }
         else
       {
-        print_file(in, &bootblock, &pwd, filename, NULL);
+        copy_file(in, &bootblock, &pwd, filename, NULL);
       }
     }
       else
@@ -270,7 +275,7 @@ int main(int argc, char *argv[])
       }
         else
       {
-        print_file(in, &bootblock, &pwd, filename, NULL);
+        copy_file(in, &bootblock, &pwd, filename, NULL);
       }
     }
       else
@@ -293,7 +298,7 @@ int main(int argc, char *argv[])
           else
         {
           out = fopen(filename, "wb");
-          print_file(in, &bootblock, &pwd, filename, out);
+          copy_file(in, &bootblock, &pwd, filename, out);
           fclose(out);
           printf("Saved!\n");
         }
@@ -324,6 +329,37 @@ int main(int argc, char *argv[])
     {
       CHECKDIR();
       list_directory(in, &bootblock, &pwd);
+    }
+      else
+    if (strncmp(command, "copy all ", sizeof("copy all ") - 1) == 0)
+    {
+      char *path = command + sizeof("copy all ") - 1;
+      int len = strlen(path);
+
+      if (len != 0) { len--; }
+      if (path[len] == '/') { path[len] = 0; }
+
+      if (path[0] == 0)
+      {
+        printf("Illegal directory\n");
+        continue;
+      } 
+
+      CHECKDIR();
+
+      if (mkdir(path, 0777) != 0)
+      {
+        if (errno != EEXIST)
+        {
+          printf("Could not create directory %s\n", path);
+          continue;
+        }
+      }
+
+      if (copy_all(in, &bootblock, &pwd, path) != 0)
+      {
+        printf("Errors encountered while copying all.\n");
+      }
     }
       else
     if (strncmp(command, "dump partition ", sizeof("dump partition ") - 1) == 0)

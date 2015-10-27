@@ -57,6 +57,7 @@ struct _pwd
   uint32_t parent_dir;
 };
 
+void print_hash_info(FILE *in, struct _amiga_rootblock *rootblock, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, uint32_t block);
 void read_directory(FILE * in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_directory *directory, uint32_t block);
 void list_directory(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd);
 void print_directory(struct _amiga_directory *directory);

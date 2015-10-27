@@ -18,6 +18,43 @@ Released under GPL
 #include "directory.h"
 #include "fileio.h"
 
+void print_hash_info(FILE *in, struct _amiga_rootblock *rootblock, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, uint32_t block)
+{
+  struct _amiga_directory directory;
+  struct _amiga_fileheader fileheader;
+  int sec_type;
+
+  sec_type = get_sec_type(in, bootblock, partition, block);
+
+  if (sec_type == ST_USERDIR)
+  {
+    read_directory(in, bootblock, partition, &directory, block);
+    //print_directory(&directory);
+    printf("    (Dir) %s\n", directory.dirname);
+
+    if (directory.hash_chain != 0)
+    {
+      print_hash_info(in, rootblock, bootblock, partition, directory.hash_chain);
+    }
+  }
+    else
+  if (sec_type == ST_FILE)
+  {
+    read_fileheader(in, bootblock, partition, &fileheader, block);
+    //print_fileheader(&fileheader);
+    printf("%9d %s\n", fileheader.byte_size, fileheader.filename);
+
+    if (fileheader.hash_chain != 0)
+    {
+      print_hash_info(in, rootblock, bootblock, partition, fileheader.hash_chain);
+    }
+  }
+    else
+  {
+    printf("Unknown sec_type %d\n", sec_type);
+  }
+}
+
 void read_directory(FILE * in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_directory *directory, unsigned int block)
 {
   int namelen;
@@ -127,7 +164,7 @@ int ch_dir(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd, char 
   {
     if (pwd->parent_dir == 0) { return -1; }
 
-    if (pwd->parent_dir==pwd->rootblock.header_key)
+    if (pwd->parent_dir == pwd->rootblock.header_key)
     {
       memcpy(pwd->dir_hash, pwd->rootblock.hash_table, (BSIZE / 4 - 56) * 4);
       pwd->cwd[0] = 0;

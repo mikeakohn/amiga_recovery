@@ -26,8 +26,6 @@ Released under GPL
 
 uint32_t hash_name(unsigned char *name);
 
-void print_hash_info(FILE *in, struct _amiga_rootblock *rootblock, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, uint32_t block);
-
 int get_sec_type(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, uint32_t block);
 
 #endif

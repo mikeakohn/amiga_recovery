@@ -8,12 +8,10 @@ Released under GPL
 
 */
 
-#ifndef FILE_H
-#define FILE_H
+#ifndef COPY_ALL_H
+#define COPY_ALL_H
 
-#include "affs.h"
-
-void copy_file(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd, char *filename, FILE *out);
+int copy_all(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd, char *path);
 
 #endif
 
