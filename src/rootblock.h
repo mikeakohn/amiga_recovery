@@ -1,10 +1,11 @@
 /*
 
-Amiga Recovery - Recover files from an Amiga AFFS disk image
-Copyright 2009-2015 - Michael Kohn (mike@mikekohn.net)
+Amiga Recovery - Recover files from an Amiga AFFS disk image.
+
+Copyright 2009-2019 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
-Released under GPL
+Released under GPLv3.
 
 */
 
@@ -50,8 +51,15 @@ struct _amiga_rootblock
 };
 
 int read_rootblock_data(FILE *in, struct _amiga_rootblock *rootblock);
-void read_rootblock(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_rootblock *rootblock);
+
+void read_rootblock(
+  FILE *in,
+  struct _amiga_bootblock *bootblock,
+  struct _amiga_partition *partition,
+  struct _amiga_rootblock *rootblock);
+
 void print_rootblock(struct _amiga_rootblock *rootblock);
+
 uint32_t find_root_block(FILE *in);
 
 #endif

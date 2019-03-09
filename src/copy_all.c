@@ -1,10 +1,11 @@
 /*
 
-Amiga Recovery - Recover files from an Amiga AFFS disk image
-Copyright 2009-2015 - Michael Kohn (mike@mikekohn.net)
+Amiga Recovery - Recover files from an Amiga AFFS disk image.
+
+Copyright 2009-2019 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
-Released under GPL
+Released under GPLv3.
 
 */
 
@@ -22,7 +23,13 @@ Released under GPL
 #include "directory.h"
 #include "fileio.h"
 
-static int copy_from_hash(FILE *in, struct _amiga_rootblock *rootblock, struct _amiga_bootblock *bootblock, struct _pwd *pwd, uint32_t block, const char *path)
+static int copy_from_hash(
+  FILE *in,
+  struct _amiga_rootblock *rootblock,
+  struct _amiga_bootblock *bootblock,
+  struct _pwd *pwd,
+  uint32_t block,
+  const char *path)
 {
   struct _amiga_directory directory;
   struct _amiga_fileheader fileheader;
@@ -55,9 +62,9 @@ static int copy_from_hash(FILE *in, struct _amiga_rootblock *rootblock, struct _
       }
     }
       else
-    { 
+    {
       if (errno != EEXIST)
-      { 
+      {
         printf("Could not create directory %s\n", path);
         return -1;
       }
@@ -103,7 +110,11 @@ static int copy_from_hash(FILE *in, struct _amiga_rootblock *rootblock, struct _
   return 0;
 }
 
-int copy_all(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd, char *path)
+int copy_all(
+  FILE *in,
+  struct _amiga_bootblock *bootblock,
+  struct _pwd *pwd,
+  char *path)
 {
   int t;
 
@@ -120,5 +131,4 @@ int copy_all(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd, cha
 
   return 0;
 }
-
 

@@ -1,10 +1,11 @@
 /*
 
-Amiga Recovery - Recover files from an Amiga AFFS disk image
-Copyright 2009-2015 - Michael Kohn (mike@mikekohn.net)
+Amiga Recovery - Recover files from an Amiga AFFS disk image.
+
+Copyright 2009-2019 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
-Released under GPL
+Released under GPLv3
 
 */
 
@@ -16,7 +17,9 @@ Released under GPL
 #include "fileio.h"
 #include "rootblock.h"
 
-static uint32_t calc_rootblock(struct _amiga_bootblock *bootblock, struct _amiga_partition *partition)
+static uint32_t calc_rootblock(
+  struct _amiga_bootblock *bootblock,
+  struct _amiga_partition *partition)
 {
   return (((((partition->end_cyl - partition->start_cyl + 1) *
             partition->heads * partition->blocks_per_track) - 1) +
@@ -83,7 +86,11 @@ int read_rootblock_data(FILE *in, struct _amiga_rootblock *rootblock)
   return 0;
 }
 
-void read_rootblock(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_rootblock *rootblock)
+void read_rootblock(
+  FILE *in,
+  struct _amiga_bootblock *bootblock,
+  struct _amiga_partition *partition,
+  struct _amiga_rootblock *rootblock)
 {
   uint32_t offset;
   //int namelen;
@@ -169,16 +176,16 @@ uint32_t find_root_block(FILE *in)
     {
       long marker = ftell(in);
       fseek(in, marker - 512, SEEK_SET);
-      
+
       if (read_rootblock_data(in, &rootblock) == 0 &&
           rootblock.hash_table_size != 0)
-      {   
-        printf("Possible Rootblock at %ld block=%d\n", marker, (int)marker / 512);      
+      {
+        printf("Possible Rootblock at %ld block=%d\n", marker, (int)marker / 512);
         print_rootblock(&rootblock);
         offset = (uint32_t)marker - 512;
         break;
-      } 
-      
+      }
+
       fseek(in, marker, SEEK_SET);
     }
   }
@@ -187,5 +194,4 @@ uint32_t find_root_block(FILE *in)
 
   return offset;
 }
-
 

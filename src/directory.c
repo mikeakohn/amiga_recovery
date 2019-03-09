@@ -1,10 +1,11 @@
 /*
 
-Amiga Recovery - Recover files from an Amiga AFFS disk image
-Copyright 2009-2015 - Michael Kohn (mike@mikekohn.net)
+Amiga Recovery - Recover files from an Amiga AFFS disk image.
+
+Copyright 2009-2019 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
-Released under GPL
+Released under GPLv3
 
 */
 
@@ -18,7 +19,12 @@ Released under GPL
 #include "directory.h"
 #include "fileio.h"
 
-void print_hash_info(FILE *in, struct _amiga_rootblock *rootblock, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, uint32_t block)
+void print_hash_info(
+  FILE *in,
+  struct _amiga_rootblock *rootblock,
+  struct _amiga_bootblock *bootblock,
+  struct _amiga_partition *partition,
+  uint32_t block)
 {
   struct _amiga_directory directory;
   struct _amiga_fileheader fileheader;
@@ -55,7 +61,12 @@ void print_hash_info(FILE *in, struct _amiga_rootblock *rootblock, struct _amiga
   }
 }
 
-void read_directory(FILE * in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_directory *directory, unsigned int block)
+void read_directory(
+  FILE * in,
+  struct _amiga_bootblock *bootblock,
+  struct _amiga_partition *partition,
+  struct _amiga_directory *directory,
+  uint32_t block)
 {
   int namelen;
   int t;
@@ -109,12 +120,12 @@ void read_directory(FILE * in, struct _amiga_bootblock *bootblock, struct _amiga
   directory->sec_type = read_int(in);
 }
 
-void list_directory(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd)
+void list_directory(
+  FILE *in,
+  struct _amiga_bootblock *bootblock,
+  struct _pwd *pwd)
 {
-  //struct _amiga_rootblock rootblock;
   int t;
-
-  //read_rootblock(in,bootblock,partition,&rootblock);
 
   for (t = 0; t < 72; t++)
   {
@@ -155,7 +166,11 @@ void print_directory(struct _amiga_directory *directory)
   printf("         sec_type: %d\n", directory->sec_type);
 }
 
-int ch_dir(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd, char *dirname)
+int ch_dir(
+  FILE *in,
+  struct _amiga_bootblock *bootblock,
+  struct _pwd *pwd,
+  char *dirname)
 {
   struct _amiga_directory directory;
   struct _amiga_fileheader fileheader;

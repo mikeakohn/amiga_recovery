@@ -1,10 +1,11 @@
 /*
 
-Amiga Recovery - Recover files from an Amiga AFFS disk image
-Copyright 2009-2015 - Michael Kohn (mike@mikekohn.net)
+Amiga Recovery - Recover files from an Amiga AFFS disk image.
+
+Copyright 2009-2019 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
-Released under GPL
+Released under GPLv3.
 
 */
 
@@ -29,7 +30,13 @@ struct _amiga_file_ext
   uint32_t sec_type;
 };
 
-void read_file_ext(FILE * in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_file_ext *file_ext, uint32_t block);
+void read_file_ext(
+  FILE * in,
+  struct _amiga_bootblock *bootblock,
+  struct _amiga_partition *partition,
+  struct _amiga_file_ext *file_ext,
+  uint32_t block);
+
 void print_file_ext(struct _amiga_file_ext *file_ext);
 
 #endif

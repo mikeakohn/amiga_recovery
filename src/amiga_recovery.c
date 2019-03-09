@@ -1,10 +1,11 @@
 /*
 
-Amiga Recovery - Recover files from an Amiga AFFS disk image
-Copyright 2009-2015 - Michael Kohn (mike@mikekohn.net)
+Amiga Recovery - Recover files from an Amiga AFFS disk image.
+
+Copyright 2009-2019 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
-Released under GPL
+Released under GPLv3.
 
 */
 
@@ -74,6 +75,7 @@ static void change_dir(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd
   }
 
   t = 0;
+
   while(path[t] != 0)
   {
     if (path[t] == ':')
@@ -93,6 +95,7 @@ static void change_dir(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd
         read_rootblock(in, bootblock, &pwd->partition, &pwd->rootblock);
         memcpy(pwd->dir_hash, pwd->rootblock.hash_table, (BSIZE / 4 - 56) * 4);
       }
+
       pwd->partition_num = p;
       path = path + t + 1;
 

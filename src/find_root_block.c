@@ -1,3 +1,16 @@
+/*
+  
+Amiga Recovery - Recover files from an Amiga AFFS disk image.
+
+Copyright 2009-2019 - Michael Kohn (mike@mikekohn.net)
+http://www.mikekohn.net/
+
+Released under GPLv3.
+
+find_root_block - Scan a disk image for a root block.
+
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>

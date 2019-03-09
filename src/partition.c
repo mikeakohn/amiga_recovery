@@ -1,10 +1,11 @@
 /*
 
-Amiga Recovery - Recover files from an Amiga AFFS disk image
-Copyright 2009-2015 - Michael Kohn (mike@mikekohn.net)
+Amiga Recovery - Recover files from an Amiga AFFS disk image.
+
+Copyright 2009-2019 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
-Released under GPL
+Released under GPLv3.
 
 */
 
@@ -18,7 +19,10 @@ Released under GPL
 #include "partition.h"
 #include "fileio.h"
 
-int read_partition(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition)
+int read_partition(
+  FILE *in,
+  struct _amiga_bootblock *bootblock,
+  struct _amiga_partition *partition)
 {
   uint32_t cylindar_size;
   int namelen;
@@ -132,7 +136,7 @@ void print_partition(struct _amiga_partition *partition)
   printf("    boot_priority: %d\n", partition->boot_priority);
 
   printf("             type: %4.4s\n", partition->type);
- 
+
   printf("             baud: %d\n", partition->baud);
   printf("          control: %d\n", partition->control);
   printf("       bootblocks: %d\n", partition->bootblocks);
@@ -147,6 +151,7 @@ void print_partition_list(FILE *in, struct _amiga_bootblock *bootblock)
 
   count = 0;
   t = bootblock->partitionlst;
+
   while(t > 0)
   {
     fseek(in, t * 512, SEEK_SET);
@@ -178,7 +183,11 @@ void show_partitions(FILE *in, struct _amiga_bootblock *bootblock)
   }
 }
 
-int dump_partition(FILE *in, struct _amiga_bootblock *bootblock, int num, const char *filename)
+int dump_partition(
+  FILE *in,
+  struct _amiga_bootblock *bootblock,
+  int num,
+  const char *filename)
 {
   struct _amiga_partition partition;
   int count,t;
@@ -188,6 +197,7 @@ int dump_partition(FILE *in, struct _amiga_bootblock *bootblock, int num, const 
 
   count = 0;
   t = bootblock->partitionlst;
+
   while(t > 0)
   {
     fseek(in, t * 512, SEEK_SET);
@@ -238,7 +248,11 @@ int dump_partition(FILE *in, struct _amiga_bootblock *bootblock, int num, const 
   return -1;
 }
 
-int read_partition_num(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, int num)
+int read_partition_num(
+  FILE *in,
+  struct _amiga_bootblock *bootblock,
+  struct _amiga_partition *partition,
+  int num)
 {
   int count, t;
 

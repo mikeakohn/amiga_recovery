@@ -1,3 +1,17 @@
+/*
+  
+Amiga Recovery - Recover files from an Amiga AFFS disk image.
+
+Copyright 2009-2019 - Michael Kohn (mike@mikekohn.net)
+http://www.mikekohn.net/
+
+Released under GPLv3.
+
+parse_hunk - Read in an Amiga executable and dump out all sections of
+             the hunk file.
+
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -107,7 +121,7 @@ int parse_hunk_code(FILE *in)
     read_int32(in);
   }
 
-  printf("Length In Bytes: %d\n", length);
+  printf("Length In Bytes: %d\n", length * 4);
 
   return 0;
 }
@@ -235,22 +249,11 @@ int main(int argc, char *argv[])
 
   fseek(in, 0, SEEK_SET);
 
-#if 0
-  uint32_t total_hunks = read_int32(in);
-  uint32_t progressive_hunks = read_int32(in);
-  uint32_t table_length = read_int32(in);
-
-  printf(" --- Header ---\n");
-  printf("     Magic Cookie: %s\n", get_hunk_name(magic_cookie));
-  printf("      Total Hunks: %d\n", total_hunks);
-  printf("Progressive Hunks: %d\n", progressive_hunks);
-  printf("     Table Length: %d\n", table_length);
-#endif
-
   int running = 1;
 
   while(running == 1)
   {
+    long offset = ftell(in);
     uint32_t hunk_type = read_int32(in);
     uint32_t bits = hunk_type >> 30;
 
@@ -278,7 +281,8 @@ int main(int argc, char *argv[])
       }
     }
 
-    printf("-- %s%s --\n", get_hunk_name(hunk_type), where);
+    printf("-- %s%s offset=%ld --\n",
+      get_hunk_name(hunk_type), where, offset);
 
     switch (hunk_type)
     {

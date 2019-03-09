@@ -1,19 +1,20 @@
 /*
 
-Amiga Recovery - Recover files from an Amiga AFFS disk image
-Copyright 2009-2015 - Michael Kohn (mike@mikekohn.net)
+Amiga Recovery - Recover files from an Amiga AFFS disk imag.
+
+Copyright 2009-2019 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
-Released under GPL
+Released under GPLv3.
 
 */
 
 #ifndef FILEIO_H
 #define FILEIO_H
 
-int read_int(FILE *in);
-int read_short(FILE *in);
-int read_chars(FILE *in, unsigned char *s, int count);
+uint32_t read_int(FILE *in);
+uint32_t read_short(FILE *in);
+int read_chars(FILE *in, uint8_t *s, int count);
 
 #endif
 

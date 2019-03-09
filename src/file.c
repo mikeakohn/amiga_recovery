@@ -1,10 +1,11 @@
 /*
 
-Amiga Recovery - Recover files from an Amiga AFFS disk image
-Copyright 2009-2015 - Michael Kohn (mike@mikekohn.net)
+Amiga Recovery - Recover files from an Amiga AFFS disk image.
+
+Copyright 2009-2019 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
-Released under GPL
+Released under GPLv3.
 
 */
 
@@ -18,13 +19,18 @@ Released under GPL
 #include "file_ext.h"
 #include "fileio.h"
 
-static void print_file_at_block(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, struct _amiga_fileheader *fileheader, FILE *out)
+static void print_file_at_block(
+  FILE *in,
+  struct _amiga_bootblock *bootblock,
+  struct _amiga_partition *partition,
+  struct _amiga_fileheader *fileheader,
+  FILE *out)
 {
   //struct _amiga_datablock datablock;
   struct _amiga_file_ext file_ext;
   uint32_t *datablocks;
   uint32_t bytes_left;
-  unsigned char buffer[bootblock->blksz];
+  uint8_t buffer[bootblock->blksz];
   uint32_t next_block;
   int curr;
   int len;
@@ -42,10 +48,10 @@ static void print_file_at_block(FILE *in, struct _amiga_bootblock *bootblock, st
     {
       if (datablocks[curr] == 0) { break; }
 
-      fseek(in, partition->start + (datablocks[curr] * bootblock->blksz), SEEK_SET); 
+      fseek(in, partition->start + (datablocks[curr] * bootblock->blksz), SEEK_SET);
       if (bytes_left > bootblock->blksz)
       {
-        len=fread(buffer, 1, bootblock->blksz, in);
+        len = fread(buffer, 1, bootblock->blksz, in);
         bytes_left -= bootblock->blksz;
       }
         else
@@ -54,19 +60,37 @@ static void print_file_at_block(FILE *in, struct _amiga_bootblock *bootblock, st
         bytes_left -= bytes_left;
       }
 
+      uint32_t offset = 0;
+
+      // This is OFS, so skip 24 bytes of each sector.
+      if (partition->type[3] == '0')
+      {
+        offset = 24;
+      }
+
+#if 0
+printf("offset=%d %c%c%c[%d]\n", offset,
+  partition->type[0],
+  partition->type[1],
+  partition->type[2],
+  partition->type[3]
+);
+#endif
+
       if (out == NULL)
       {
-        for (t = 0; t < len; t++) { putchar(buffer[t]); }
+        for (t = offset; t < len; t++) { putchar(buffer[t]); }
       }
         else
       {
-        fwrite(buffer, 1, len, out);
+        fwrite(buffer + offset, 1, len - offset, out);
       }
     }
 
     if (next_block == 0) { break; }
 
     read_file_ext(in, bootblock, partition, &file_ext, next_block);
+
     if (file_ext.type != 16)
     {
       printf("Error: File extension wasn't read right?  Bug?\n");
@@ -81,7 +105,12 @@ static void print_file_at_block(FILE *in, struct _amiga_bootblock *bootblock, st
   if (out == NULL) { printf("\n"); }
 }
 
-void copy_file(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd, char *filename, FILE *out)
+void copy_file(
+  FILE *in,
+  struct _amiga_bootblock *bootblock,
+  struct _pwd *pwd,
+  char *filename,
+  FILE *out)
 {
   struct _amiga_directory directory;
   struct _amiga_fileheader fileheader;

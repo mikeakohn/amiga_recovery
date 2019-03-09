@@ -1,10 +1,11 @@
 /*
 
-Amiga Recovery - Recover files from an Amiga AFFS disk image
-Copyright 2009-2015 - Michael Kohn (mike@mikekohn.net)
+Amiga Recovery - Recover files from an Amiga AFFS disk image.
+
+Copyright 2009-2019 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
-Released under GPL
+Released under GPLv3.
 
 */
 
@@ -17,7 +18,7 @@ Released under GPL
 
 struct _amiga_partition
 {
-  unsigned char magic[4];
+  uint8_t magic[4];
   int size;
   int checksum;
   uint32_t scsihost;
@@ -44,7 +45,7 @@ struct _amiga_partition
   uint32_t max_transfer;
   uint32_t mask;
   int  boot_priority;
-  unsigned char type[4];
+  uint8_t type[4];
   uint32_t baud;
   uint32_t control;
   uint32_t bootblocks;
@@ -54,12 +55,29 @@ struct _amiga_partition
   uint32_t size_in_bytes;
 };
 
-int read_partition(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition);
+int read_partition(
+  FILE *in,
+  struct _amiga_bootblock *bootblock,
+  struct _amiga_partition *partition);
+
 void print_partition(struct _amiga_partition *partition);
+
 void print_partition_list(FILE *in, struct _amiga_bootblock *bootblock);
+
 void show_partitions(FILE *in, struct _amiga_bootblock *bootblock);
-int dump_partition(FILE *in, struct _amiga_bootblock *bootblock, int num, const char *name);
-int read_partition_num(FILE *in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, int num);
+
+int dump_partition(
+  FILE *in,
+  struct _amiga_bootblock *bootblock,
+  int num,
+  const char *name);
+
+int read_partition_num(
+  FILE *in,
+  struct _amiga_bootblock *bootblock,
+  struct _amiga_partition *partition,
+  int num);
+
 int get_partition_num(FILE *in, struct _amiga_bootblock *bootblock, char *name);
 
 #endif
