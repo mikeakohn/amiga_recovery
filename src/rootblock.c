@@ -153,9 +153,9 @@ void print_rootblock(struct _amiga_rootblock *rootblock)
   printf("      disk_offset: 0x%08x (%d)\n", rootblock->disk_offset, rootblock->disk_offset);
 }
 
-uint32_t find_root_block(FILE *in)
+uint32_t find_root_block(FILE *in, struct _amiga_rootblock *rootblock)
 {
-  struct _amiga_rootblock rootblock;
+  //struct _amiga_rootblock rootblock;
   uint8_t buffer[512];
   long marker;
   int len;
@@ -177,11 +177,11 @@ uint32_t find_root_block(FILE *in)
       long marker = ftell(in);
       fseek(in, marker - 512, SEEK_SET);
 
-      if (read_rootblock_data(in, &rootblock) == 0 &&
-          rootblock.hash_table_size != 0)
+      if (read_rootblock_data(in, rootblock) == 0 &&
+          rootblock->hash_table_size != 0)
       {
         printf("Possible Rootblock at %ld block=%d\n", marker, (int)marker / 512);
-        print_rootblock(&rootblock);
+        print_rootblock(rootblock);
         offset = (uint32_t)marker - 512;
         break;
       }

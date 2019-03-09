@@ -69,7 +69,7 @@ static void print_file_at_block(
       }
 
 #if 0
-printf("offset=%d %c%c%c[%d]\n", offset,
+printf("offset=%d type=%c%c%c[%d]\n", offset,
   partition->type[0],
   partition->type[1],
   partition->type[2],

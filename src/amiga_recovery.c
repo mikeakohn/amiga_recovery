@@ -19,6 +19,7 @@ Released under GPLv3.
 
 #include "affs.h"
 #include "copy_all.h"
+#include "fileio.h"
 
 #define CHECKDIR() \
       if (pwd.partition.magic[0] == 0) \
@@ -167,7 +168,7 @@ int main(int argc, char *argv[])
   {
     printf("Error: Could not read bootblock\n\n");
 
-    uint32_t offset = find_root_block(in);
+    uint32_t offset = find_root_block(in, &pwd.rootblock);
 
     if (offset == 0)
     {
@@ -185,6 +186,15 @@ int main(int argc, char *argv[])
 
     memset(&bootblock, 0, sizeof(bootblock));
     bootblock.blksz = 512;
+
+    fseek(in, SEEK_SET, 0);
+    read_chars(in, pwd.partition.type, 4);
+
+    if (pwd.partition.type[0] == 'D' && pwd.partition.type[1] == 'O' &&
+        pwd.partition.type[2] == 'S')
+    {
+      pwd.partition.type[3] += '0';
+    }
   }
 
   printf("Type help for a list of commands.\n");

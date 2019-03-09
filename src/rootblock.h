@@ -60,7 +60,7 @@ void read_rootblock(
 
 void print_rootblock(struct _amiga_rootblock *rootblock);
 
-uint32_t find_root_block(FILE *in);
+uint32_t find_root_block(FILE *in, struct _amiga_rootblock *rootblock);
 
 #endif
 
