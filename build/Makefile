@@ -12,7 +12,6 @@ default: $(OBJECTS)
 	   $(OBJECTS) \
 	   $(CFLAGS)
 
-
 %.o: %.c %.h
 	$(CC) -c $< -o $*.o $(CFLAGS)
 

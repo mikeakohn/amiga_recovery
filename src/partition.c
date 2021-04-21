@@ -2,7 +2,7 @@
 
 Amiga Recovery - Recover files from an Amiga AFFS disk image.
 
-Copyright 2009-2019 - Michael Kohn (mike@mikekohn.net)
+Copyright 2009-2021 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
 Released under GPLv3.
@@ -86,20 +86,29 @@ int read_partition(
   partition->boot_priority = read_int(in);
 
   read_chars(in, partition->type, 4);
-  if (partition->type[0] == 'D' && partition->type[1] == 'O' &&
+
+  if (partition->type[0] == 'D' &&
+      partition->type[1] == 'O' &&
       partition->type[2] == 'S')
-  { partition->type[3] += '0'; }
+  {
+    partition->type[3] += '0';
+  }
 
   partition->baud = read_int(in);
   partition->control = read_int(in);
   partition->bootblocks = read_int(in);
 
-  cylindar_size = bootblock->blksz*partition->heads*
-                partition->sectors_per_block * partition->blocks_per_track;
+  cylindar_size =
+    bootblock->blksz *
+    partition->heads *
+    partition->sectors_per_block *
+    partition->blocks_per_track;
+
   partition->start = cylindar_size*partition->start_cyl;
 
   //partition->size_in_bytes=partition->end-partition->start;
-  partition->size_in_bytes = (partition->end_cyl-partition->start_cyl+1)*cylindar_size;
+  partition->size_in_bytes =
+    (partition->end_cyl-partition->start_cyl + 1) * cylindar_size;
   partition->end = partition->start+partition->size_in_bytes;
 
   return 0;
@@ -170,13 +179,22 @@ void show_partitions(FILE *in, struct _amiga_bootblock *bootblock)
 
   count = 0;
   t = bootblock->partitionlst;
-  printf("%-20s %4s %10s %10s %12s %12s\n", "Name", "Type", "Start Cyl", "End Cyl", "Offset", "Size");
+
+  printf("%-20s %4s %10s %10s %12s %12s\n",
+    "Name", "Type", "Start Cyl", "End Cyl", "Offset", "Size");
 
   while(t > 0)
   {
     fseek(in, t * 512, SEEK_SET);
     read_partition(in, bootblock, &partition);
-    printf("%-20s %4.4s %10d %10d %12d %12d\n", partition.name, partition.type, partition.start_cyl, partition.end_cyl, partition.start, partition.size_in_bytes);
+
+    printf("%-20s %4.4s %10d %10d %12d %12d\n",
+      partition.name,
+      partition.type,
+      partition.start_cyl,
+      partition.end_cyl,
+      partition.start,
+      partition.size_in_bytes);
 
     t = partition.next;
     count++;

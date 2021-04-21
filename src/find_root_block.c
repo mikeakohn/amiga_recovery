@@ -1,8 +1,8 @@
 /*
-  
+
 Amiga Recovery - Recover files from an Amiga AFFS disk image.
 
-Copyright 2009-2019 - Michael Kohn (mike@mikekohn.net)
+Copyright 2009-2021 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
 Released under GPLv3.
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
       marker = ftell(in);
       fseek(in, marker - 512, SEEK_SET);
 
-      if (read_rootblock_data(in, &rootblock) == 0 && 
+      if (read_rootblock_data(in, &rootblock) == 0 &&
           rootblock.hash_table_size != 0)
       {
         printf("Possible Rootblock at %ld block=%d\n", marker, (int)marker / 512);
@@ -70,5 +70,4 @@ int main(int argc, char *argv[])
 
   return 0;
 }
-
 

@@ -22,11 +22,11 @@ Released under GPLv3.
 #include "fileio.h"
 
 #define CHECKDIR() \
-      if (pwd.partition.magic[0] == 0) \
-      { \
-        printf("No current dir... cd somewhere first.\n"); \
-        continue; \
-      } \
+  if (pwd.partition.magic[0] == 0) \
+  { \
+    printf("No current dir... cd somewhere first.\n"); \
+    continue; \
+  }
 
 static void print_help()
 {
@@ -65,7 +65,11 @@ static void print_pwd(struct _pwd *pwd)
   printf(":%s\n", pwd->cwd);
 }
 
-static void change_dir(FILE *in, struct _amiga_bootblock *bootblock, struct _pwd *pwd, char *path)
+static void change_dir(
+  FILE *in,
+  struct _amiga_bootblock *bootblock,
+  struct _pwd *pwd,
+  char *path)
 {
   int t;
 
@@ -138,8 +142,8 @@ int main(int argc, char *argv[])
   char command[1024];
   int t;
 
-  printf("Amiga Recovery - 2015-October-20\n");
-  printf("Copyright 2009-2015 - Michael Kohn (mike@mikekohn.net)\n");
+  printf("Amiga Recovery - 2021-April-21\n");
+  printf("Copyright 2009-2021 - Michael Kohn (mike@mikekohn.net)\n");
   printf("http://www.mikekohn.net/\n\n");
 
   if (argc < 2)
@@ -270,7 +274,7 @@ int main(int argc, char *argv[])
       char *filename = command + 5;
       if (filename[0] == 0)
       {
-        printf("Error: No filename specified.\n"); 
+        printf("Error: No filename specified.\n");
       }
         else
       {
@@ -284,7 +288,7 @@ int main(int argc, char *argv[])
       char *filename = command + 4;
       if (filename[0] == 0)
       {
-        printf("Error: No filename specified.\n"); 
+        printf("Error: No filename specified.\n");
       }
         else
       {
@@ -298,7 +302,7 @@ int main(int argc, char *argv[])
       char *filename = command + 4;
       if (filename[0] == 0)
       {
-        printf("Error: No filename specified.\n"); 
+        printf("Error: No filename specified.\n");
       }
         else
       {
@@ -323,7 +327,7 @@ int main(int argc, char *argv[])
       char *dir = command + 4;
       if (dir[0] == 0)
       {
-        printf("Error: No filename specified.\n"); 
+        printf("Error: No filename specified.\n");
       }
         else
       {
@@ -356,7 +360,7 @@ int main(int argc, char *argv[])
       {
         printf("Illegal directory\n");
         continue;
-      } 
+      }
 
       CHECKDIR();
 
@@ -409,5 +413,4 @@ int main(int argc, char *argv[])
 
   return 0;
 }
-
 

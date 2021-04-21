@@ -2,5 +2,6 @@
 amiga_recovery
 *.swp
 find_root_block
+find_partitions
 parse_hunk
 
