@@ -2,7 +2,7 @@
 
 Amiga Recovery - Recover files from an Amiga AFFS disk image.
 
-Copyright 2009-2019 - Michael Kohn (mike@mikekohn.net)
+Copyright 2009-2021 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
 Released under GPLv3.
@@ -22,7 +22,7 @@ struct _amiga_datablock
   uint32_t data_size;
   uint32_t next_data;
   uint32_t checksum;
-  unsigned char data[BSIZE-24];
+  uint8_t data[BSIZE - 24];
 };
 
 void read_datablock(

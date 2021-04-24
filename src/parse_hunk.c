@@ -2,7 +2,7 @@
   
 Amiga Recovery - Recover files from an Amiga AFFS disk image.
 
-Copyright 2009-2019 - Michael Kohn (mike@mikekohn.net)
+Copyright 2009-2021 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
 Released under GPLv3.
@@ -130,7 +130,7 @@ int parse_hunk_reloc32(FILE *in)
 {
   int n;
 
-  while(1)
+  while (1)
   {
     uint32_t count = read_int32(in);
     if (count == 0) { return 0; }
@@ -155,7 +155,7 @@ int parse_hunk_symbol(FILE *in)
   int ch, n, ptr;
   char name[1024];
 
-  while(1)
+  while (1)
   {
     uint32_t name_length = read_int32(in);
     if (name_length == 0) { break; }
@@ -251,7 +251,7 @@ int main(int argc, char *argv[])
 
   int running = 1;
 
-  while(running == 1)
+  while (running == 1)
   {
     long offset = ftell(in);
     uint32_t hunk_type = read_int32(in);

@@ -2,7 +2,7 @@
 
 Amiga Recovery - Recover files from an Amiga AFFS disk image.
 
-Copyright 2009-2019 - Michael Kohn (mike@mikekohn.net)
+Copyright 2009-2021 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
 Released under GPLv3.
@@ -39,7 +39,11 @@ uint32_t hash_name(unsigned char *name)
   return(hash);
 }
 
-int get_sec_type(FILE * in, struct _amiga_bootblock *bootblock, struct _amiga_partition *partition, uint32_t block)
+int get_sec_type(
+  FILE * in,
+  struct _amiga_bootblock *bootblock,
+  struct _amiga_partition *partition,
+  uint32_t block)
 {
   fseek(in, partition->start + (block * bootblock->blksz + (bootblock->blksz - 4)), SEEK_SET);
 

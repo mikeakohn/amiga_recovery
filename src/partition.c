@@ -104,12 +104,12 @@ int read_partition(
     partition->sectors_per_block *
     partition->blocks_per_track;
 
-  partition->start = cylindar_size*partition->start_cyl;
+  partition->start = (uint64_t)cylindar_size * (uint64_t)partition->start_cyl;
 
-  //partition->size_in_bytes=partition->end-partition->start;
   partition->size_in_bytes =
-    (partition->end_cyl-partition->start_cyl + 1) * cylindar_size;
-  partition->end = partition->start+partition->size_in_bytes;
+    (uint64_t)(partition->end_cyl-partition->start_cyl + 1) *
+    (uint64_t)cylindar_size;
+  partition->end = partition->start + partition->size_in_bytes;
 
   return 0;
 }
@@ -135,9 +135,9 @@ void print_partition(struct _amiga_partition *partition)
   printf("     num_reserved: %d\n", partition->num_reserved);
   printf("        pre_alloc: %d\n", partition->pre_alloc);
   printf("       interleave: %d\n", partition->interleave);
-  printf("        start_cyl: %d (addr: %u)\n", partition->start_cyl, partition->start);
-  printf("          end_cyl: %d (addr: %u)\n", partition->end_cyl, partition->end);
-  printf("                   %u bytes\n", partition->size_in_bytes);
+  printf("        start_cyl: %d (addr: %lu)\n", partition->start_cyl, partition->start);
+  printf("          end_cyl: %d (addr: %lu)\n", partition->end_cyl, partition->end);
+  printf("                  %lu bytes\n", partition->size_in_bytes);
   printf("      num_buffers: %d\n", partition->num_buffers);
   printf("        buff_type: %d\n", partition->buff_type);
   printf("     max_transfer: %d\n", partition->max_transfer);
@@ -161,7 +161,7 @@ void print_partition_list(FILE *in, struct _amiga_bootblock *bootblock)
   count = 0;
   t = bootblock->partitionlst;
 
-  while(t > 0)
+  while (t > 0)
   {
     fseek(in, t * 512, SEEK_SET);
     read_partition(in, bootblock, &partition);
@@ -183,12 +183,12 @@ void show_partitions(FILE *in, struct _amiga_bootblock *bootblock)
   printf("%-20s %4s %10s %10s %12s %12s\n",
     "Name", "Type", "Start Cyl", "End Cyl", "Offset", "Size");
 
-  while(t > 0)
+  while (t > 0)
   {
     fseek(in, t * 512, SEEK_SET);
     read_partition(in, bootblock, &partition);
 
-    printf("%-20s %4.4s %10d %10d %12d %12d\n",
+    printf("%-20s %4.4s %10d %10d %12ld %12ld\n",
       partition.name,
       partition.type,
       partition.start_cyl,
@@ -216,7 +216,7 @@ int dump_partition(
   count = 0;
   t = bootblock->partitionlst;
 
-  while(t > 0)
+  while (t > 0)
   {
     fseek(in, t * 512, SEEK_SET);
     read_partition(in, bootblock, &partition);
@@ -236,7 +236,7 @@ int dump_partition(
 
       fseek(in, partition.start, SEEK_SET);
 
-      while(size > 0)
+      while (size > 0)
       {
         if (size > 8192)
         {
@@ -276,7 +276,7 @@ int read_partition_num(
 
   count = 0;
   t = bootblock->partitionlst;
-  while(t > 0)
+  while (t > 0)
   {
     fseek(in, t * 512, SEEK_SET);
     read_partition(in, bootblock, partition);
@@ -300,7 +300,7 @@ int get_partition_num(FILE *in, struct _amiga_bootblock *bootblock, char *name)
 
   count = 0;
   t = bootblock->partitionlst;
-  while(t > 0)
+  while (t > 0)
   {
     fseek(in, t * 512, SEEK_SET);
     read_partition(in, bootblock, &partition);

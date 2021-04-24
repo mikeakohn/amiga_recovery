@@ -2,7 +2,7 @@
 
 Amiga Recovery - Recover files from an Amiga AFFS disk image.
 
-Copyright 2009-2019 - Michael Kohn (mike@mikekohn.net)
+Copyright 2009-2021 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
 Released under GPLv3.
@@ -14,7 +14,7 @@ Released under GPLv3.
 
 int copy_all(
   FILE *in,
-   struct _amiga_bootblock *bootblock,
+  struct _amiga_bootblock *bootblock,
   struct _pwd *pwd,
   char *path);
 

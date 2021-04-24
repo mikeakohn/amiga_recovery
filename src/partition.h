@@ -50,9 +50,9 @@ struct _amiga_partition
   uint32_t control;
   uint32_t bootblocks;
 
-  uint32_t start;
-  uint32_t end;
-  uint32_t size_in_bytes;
+  uint64_t start;
+  uint64_t end;
+  uint64_t size_in_bytes;
 };
 
 int read_partition(

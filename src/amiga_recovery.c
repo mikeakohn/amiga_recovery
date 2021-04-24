@@ -81,7 +81,7 @@ static void change_dir(
 
   t = 0;
 
-  while(path[t] != 0)
+  while (path[t] != 0)
   {
     if (path[t] == ':')
     {
@@ -114,7 +114,7 @@ static void change_dir(
 
   char *s = path;
 
-  while(*path != 0)
+  while (*path != 0)
   {
     while (*s != 0 && *s != '/') s++;
 
@@ -182,14 +182,15 @@ int main(int argc, char *argv[])
 
     fseek(in, offset, SEEK_SET);
 
+    memset(&bootblock, 0, sizeof(bootblock));
+    bootblock.blksz = 512;
+    bootblock.partitionlst = 1;
+
     read_rootblock_data(in, &pwd.rootblock);
     memcpy(pwd.dir_hash, pwd.rootblock.hash_table, (BSIZE / 4 - 56) * 4);
 
     strcpy((char *)pwd.partition.name, (char *)pwd.rootblock.diskname);
     memcpy(pwd.partition.magic, "PART", 4);
-
-    memset(&bootblock, 0, sizeof(bootblock));
-    bootblock.blksz = 512;
 
     fseek(in, SEEK_SET, 0);
     read_chars(in, pwd.partition.type, 4);
@@ -204,17 +205,21 @@ int main(int argc, char *argv[])
   printf("Type help for a list of commands.\n");
   command[1023] = 0;
 
-  while(1)
+  while (1)
   {
     print_prompt(&pwd);
     char *fu = fgets(command, 1023, stdin);
     if (fu == NULL) { printf("wtf gcc\n"); }
 
     t = 0;
-    while(command[t] != 0)
+    while (command[t] != 0)
     {
       if (command[t] == '\n' || command[t] == '\r')
-      { command[t] = 0; break; }
+      {
+        command[t] = 0;
+        break;
+      }
+
       t++;
     }
 

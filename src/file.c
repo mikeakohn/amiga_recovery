@@ -2,7 +2,7 @@
 
 Amiga Recovery - Recover files from an Amiga AFFS disk image.
 
-Copyright 2009-2019 - Michael Kohn (mike@mikekohn.net)
+Copyright 2009-2021 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
 Released under GPLv3.
@@ -42,7 +42,7 @@ static void print_file_at_block(
 
   // print_fileheader(fileheader);
 
-  while(bytes_left > 0)
+  while (bytes_left > 0)
   {
     for (curr = 71; curr >= 0; curr--)
     {
@@ -119,7 +119,7 @@ void copy_file(
 
   block = pwd->dir_hash[hash_name((unsigned char*)filename)];
 
-  while(block != 0)
+  while (block != 0)
   {
     sec_type = get_sec_type(in, bootblock, &pwd->partition, block);
 
@@ -127,7 +127,7 @@ void copy_file(
     {
       read_directory(in, bootblock, &pwd->partition, &directory, block);
 
-      if (directory.hash_chain == 0) break;
+      if (directory.hash_chain == 0) { break; }
 
       block = directory.hash_chain;
     }
@@ -142,7 +142,7 @@ void copy_file(
         return;
       }
 
-      if (fileheader.hash_chain == 0) break;
+      if (fileheader.hash_chain == 0) { break; }
 
       block = fileheader.hash_chain;
     }

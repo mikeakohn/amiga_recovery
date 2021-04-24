@@ -2,7 +2,7 @@
 
 Amiga Recovery - Recover files from an Amiga AFFS disk image.
 
-Copyright 2009-2019 - Michael Kohn (mike@mikekohn.net)
+Copyright 2009-2021 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
 Released under GPLv3.
@@ -31,12 +31,12 @@ struct _amiga_directory
   uint16_t gid;
   uint32_t protect;
   uint32_t unused3;
-  unsigned char comment[80]; // first char is len
-  unsigned char unused4[12];
+  uint8_t comment[80]; // first char is len
+  uint8_t unused4[12];
   uint32_t days;
   uint32_t mins;
   uint32_t ticks;
-  unsigned char dirname[32]; // first char is len, last char is unused
+  uint8_t dirname[32]; // first char is len, last char is unused
   uint32_t unused5[2];
   uint32_t next_link;
   uint32_t unused6[5];

@@ -2,7 +2,7 @@
 
 Amiga Recovery - Recover files from an Amiga AFFS disk image.
 
-Copyright 2009-2019 - Michael Kohn (mike@mikekohn.net)
+Copyright 2009-2021 - Michael Kohn (mike@mikekohn.net)
 http://www.mikekohn.net/
 
 Released under GPLv3
@@ -75,15 +75,15 @@ void read_directory(
 
   directory->type = read_int(in);
   directory->header_key = read_int(in);
-  //unsigned int unused1[3];
+  //uint32_t unused1[3];
   fseek(in, 3 * 4, SEEK_CUR);
   directory->checksum = read_int(in);
-  //unsigned int hash_table[512/4-56];
+  //uint32_t hash_table[512/4-56];
   for (t = 0; t < (512 / 4 - 56); t++)
   {
     directory->hash_table[t] = read_int(in);
   }
-  //unsigned int unused2[2];
+  //uint32_t unused2[2];
   fseek(in, 2 * 4, SEEK_CUR);
   directory->uid = read_short(in);
   directory->gid = read_short(in);
@@ -109,10 +109,10 @@ void read_directory(
     directory->dirname[t] = getc(in);
   }
   directory->dirname[namelen] = 0;
-  //unsigned int unused5[2];
+  //uint32_t unused5[2];
   fseek(in, 2 * 4, SEEK_CUR);
   directory->next_link = read_int(in);
-  //unsigned int unused6[5];
+  //uint32_t unused6[5];
   fseek(in, 5 * 4, SEEK_CUR);
   directory->hash_chain = read_int(in);
   directory->parent = read_int(in);
@@ -190,9 +190,9 @@ int ch_dir(
       read_directory(in, bootblock, &pwd->partition, &directory, pwd->parent_dir);
       memcpy(pwd->dir_hash, directory.hash_table, (BSIZE / 4 - 56) * 4);
       int l = strlen(pwd->cwd) - 2;
-      while(l >= 0)
+      while (l >= 0)
       {
-        if (pwd->cwd[l] == '/') break;
+        if (pwd->cwd[l] == '/') { break; }
         pwd->cwd[l--] = 0;
       }
     }
@@ -201,9 +201,9 @@ int ch_dir(
   {
     int block = pwd->dir_hash[hash_name((unsigned char*)dirname)];
 
-    while(block != 0)
+    while (block != 0)
     {
-      unsigned int sec_type = get_sec_type(in,bootblock,&pwd->partition,block);
+      uint32_t sec_type = get_sec_type(in,bootblock,&pwd->partition,block);
 
       if (sec_type == ST_USERDIR)
       {
@@ -218,7 +218,7 @@ int ch_dir(
           return 0;
         }
 
-        if (directory.hash_chain == 0) break;
+        if (directory.hash_chain == 0) { break; }
         block = directory.hash_chain;
       }
         else
@@ -226,7 +226,7 @@ int ch_dir(
       {
         read_fileheader(in, bootblock, &pwd->partition, &fileheader, block);
 
-        if (fileheader.hash_chain == 0) break;
+        if (fileheader.hash_chain == 0) { break; }
 
         block = fileheader.hash_chain;
       }
