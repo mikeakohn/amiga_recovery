@@ -199,17 +199,17 @@ int ch_dir(
   }
     else
   {
-    int block = pwd->dir_hash[hash_name((unsigned char*)dirname)];
+    uint32_t block = pwd->dir_hash[hash_name((uint8_t *)dirname)];
 
     while (block != 0)
     {
-      uint32_t sec_type = get_sec_type(in,bootblock,&pwd->partition,block);
+      uint32_t sec_type = get_sec_type(in, bootblock, &pwd->partition, block);
 
       if (sec_type == ST_USERDIR)
       {
-        read_directory(in,bootblock,&pwd->partition,&directory,block);
+        read_directory(in, bootblock, &pwd->partition, &directory, block);
 
-        if (strcmp((char *)directory.dirname, dirname)==0)
+        if (strcmp((char *)directory.dirname, dirname) == 0)
         {
           memcpy(pwd->dir_hash, directory.hash_table, (BSIZE / 4 - 56) * 4);
           pwd->parent_dir = directory.parent;

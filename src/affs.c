@@ -40,7 +40,7 @@ uint32_t hash_name(unsigned char *name)
 }
 
 int get_sec_type(
-  FILE * in,
+  FILE *in,
   struct _amiga_bootblock *bootblock,
   struct _amiga_partition *partition,
   uint32_t block)

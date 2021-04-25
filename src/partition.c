@@ -14,6 +14,7 @@ Released under GPLv3.
 #include <string.h>
 #include <ctype.h>
 #include <stdint.h>
+#include <inttypes.h>
 
 #include "affs.h"
 #include "partition.h"
@@ -135,9 +136,9 @@ void print_partition(struct _amiga_partition *partition)
   printf("     num_reserved: %d\n", partition->num_reserved);
   printf("        pre_alloc: %d\n", partition->pre_alloc);
   printf("       interleave: %d\n", partition->interleave);
-  printf("        start_cyl: %d (addr: %lu)\n", partition->start_cyl, partition->start);
-  printf("          end_cyl: %d (addr: %lu)\n", partition->end_cyl, partition->end);
-  printf("                  %lu bytes\n", partition->size_in_bytes);
+  printf("        start_cyl: %d (addr: %" PRId64 ")\n", partition->start_cyl, partition->start);
+  printf("          end_cyl: %d (addr: %" PRId64 ")\n", partition->end_cyl, partition->end);
+  printf("                  %" PRId64 " bytes\n", partition->size_in_bytes);
   printf("      num_buffers: %d\n", partition->num_buffers);
   printf("        buff_type: %d\n", partition->buff_type);
   printf("     max_transfer: %d\n", partition->max_transfer);
@@ -188,7 +189,7 @@ void show_partitions(FILE *in, struct _amiga_bootblock *bootblock)
     fseek(in, t * 512, SEEK_SET);
     read_partition(in, bootblock, &partition);
 
-    printf("%-20s %4.4s %10d %10d %12ld %12ld\n",
+    printf("%-20s %4.4s %10d %10d %12" PRId64 " %12" PRId64 "\n",
       partition.name,
       partition.type,
       partition.start_cyl,

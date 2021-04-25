@@ -25,7 +25,7 @@ struct _amiga_directory
   uint32_t header_key;
   uint32_t unused1[3];
   uint32_t checksum;
-  uint32_t hash_table[BSIZE/4-56];
+  uint32_t hash_table[BSIZE / 4 - 56];
   uint32_t unused2[2];
   uint16_t uid;
   uint16_t gid;
@@ -53,7 +53,7 @@ struct _pwd
   struct _amiga_partition partition;
   int partition_num;
   char cwd[4096];  // FIXME - check bounds
-  uint32_t dir_hash[BSIZE/4-56];
+  uint32_t dir_hash[BSIZE / 4 - 56];
   uint32_t hash_table_size;
   uint32_t parent_dir;
 };
